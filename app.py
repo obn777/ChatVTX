@@ -1,3 +1,5 @@
+# Путь к файлу: /root/NovBase/app.py
+
 import os
 import json
 import subprocess
@@ -13,24 +15,31 @@ model_lock = Lock()
 BASE_DIR = os.path.expanduser("~/NovBase")
 DB_FILE = os.path.join(BASE_DIR, "users_db.json")
 MAX_USERS = 100
-MASTER_KEY = "2056"
 
-# Параметры модели
+# Параметры модели 8B
 model_path = "/root/NovBase/models/Meta-Llama-3-8B-Instruct-Q6_K.gguf"
 llm = Llama(model_path=model_path, n_ctx=4096, n_gpu_layers=-1, verbose=False)
 
 chat_history = {} 
 last_activity = {}
 
-# --- ЛОГИКА БАЗЫ ДАННЫХ (БЕЗОПАСНАЯ) ---
+# --- ЛОГИКА БАЗЫ ДАННЫХ ---
 def load_db():
-    default_db = {"names": {}, "mail": {}}
+    # Стандартная структура с поддержкой ключей доступа
+    default_db = {
+        "access_keys": {"2056": "Георгий (Admin)"}, 
+        "names": {}, 
+        "mail": {}
+    }
     if os.path.exists(DB_FILE):
         try:
             with open(DB_FILE, 'r', encoding='utf-8') as f:
                 data = json.load(f)
+                # Проверка на корректность структуры
                 if not isinstance(data, dict) or "names" not in data:
                     return default_db
+                if "access_keys" not in data:
+                    data["access_keys"] = default_db["access_keys"]
                 return data
         except:
             return default_db
@@ -39,8 +48,6 @@ def load_db():
 def save_db(db_data):
     with open(DB_FILE, 'w', encoding='utf-8') as f:
         json.dump(db_data, f, ensure_ascii=False, indent=4)
-
-db = load_db()
 
 def get_local_geo(ip):
     if ip == "127.0.0.1": return "Localhost"
@@ -54,6 +61,7 @@ ADMIN_HTML = """
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
     <title>Hub Monitor</title>
     <style>
         body { background: #0a0a0a; color: #00ff41; font-family: monospace; padding: 20px; }
@@ -66,9 +74,9 @@ ADMIN_HTML = """
 <body>
     <div class="panel">
         <h1>[ NETWORK HUB: ACTIVE ]</h1>
-        <p>Всего в базе: {{ db_size }} / 100</p>
+        <p>Всего пользователей: {{ db_size }} | Активных ключей: {{ keys_count }}</p>
         <table>
-            <tr><th>ИМЯ / ID</th><th>РЕГИОН</th><th>ПОСЛЕДНЕЕ</th><th>ВРЕМЯ</th></tr>
+            <tr><th>ИМЯ (ВЛАДЕЛЕЦ КЛЮЧА)</th><th>РЕГИОН</th><th>ПОСЛЕДНЕЕ</th><th>ВРЕМЯ</th></tr>
             {% for uid, info in activity.items() %}
             <tr>
                 <td><strong>{{ info.name }}</strong></td>
@@ -88,45 +96,54 @@ def health(): return "SYSTEM ONLINE", 200
 
 @app.route('/admin')
 def admin():
-    # Безопасное получение данных для админки
     current_db = load_db()
-    return render_template_string(ADMIN_HTML, db_size=len(current_db.get("names", {})), activity=last_activity)
+    return render_template_string(
+        ADMIN_HTML, 
+        db_size=len(current_db.get("names", {})), 
+        keys_count=len(current_db.get("access_keys", {})),
+        activity=last_activity
+    )
 
 @app.route('/chat', methods=['POST'])
 def chat():
     data = request.json or {}
-    user_id = request.remote_addr
+    # Получаем реальный IP
+    user_id = request.headers.get('X-Forwarded-For', request.remote_addr)
     text = data.get("text", "").strip()
     
-    # 1. ПРОВЕРКА КЛЮЧА
+    current_db = load_db()
+    allowed_keys = current_db.get("access_keys", {})
+
+    # 1. ПРОВЕРКА КЛЮЧА АРЕНДЫ
     client_key = request.headers.get('X-API-Key') or data.get('key')
-    if client_key != MASTER_KEY:
+    if client_key not in allowed_keys:
         return jsonify({
-            "reply": "Доступ ограничен. Введите ключ 2056.",
+            "reply": "Доступ ограничен. Неверный ключ аренды.",
             "status": "unauthorized"
         })
 
-    # 2. РЕГИСТРАЦИЯ
-    current_db = load_db()
+    key_owner = allowed_keys[client_key]
+
+    # 2. РЕГИСТРАЦИЯ ИМЕНИ
     if text.lower().startswith("я "):
         new_name = text[2:].strip()
         current_db["names"][user_id] = new_name
         save_db(current_db)
-        return jsonify({"reply": f"Принято! Теперь ты {new_name}.", "status": "success"})
+        return jsonify({"reply": f"Принято! {new_name}, ты используешь доступ: {key_owner}.", "status": "success"})
 
     current_name = current_db["names"].get(user_id)
     if not current_name:
-        return jsonify({"reply": "Привет! Я Малышка. Представься: 'Я [Имя]'"})
+        return jsonify({"reply": f"Привет! Я Малышка. (Доступ: {key_owner}). Представься: 'Я [Имя]'"})
 
     # ОБНОВЛЕНИЕ МОНИТОРИНГА
     last_activity[user_id] = {
-        "name": current_name,
+        "name": f"{current_name} ({key_owner})",
         "geo": get_local_geo(user_id),
         "msg": text[:50],
         "time": datetime.now().strftime("%H:%M:%S")
     }
 
-    # 3. ГЕНЕРАЦИЯ (БЕЗ СТРИМИНГА)
+    # 3. ГЕНЕРАЦИЯ (Llama-3 8B)
     with model_lock:
         if user_id not in chat_history:
             chat_history[user_id] = []
