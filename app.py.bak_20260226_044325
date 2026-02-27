@@ -1,0 +1,145 @@
+import os
+import json
+import time
+from flask import Flask, request, jsonify
+from llama_cpp import Llama
+from threading import Lock
+
+app = Flask(__name__)
+model_lock = Lock()
+
+# --- КОНФИГУРАЦИЯ ---
+BASE_DIR = os.path.expanduser("~/NovBase")
+HISTORY_DIR = os.path.join(BASE_DIR, "history")
+DB_FILE = os.path.join(BASE_DIR, "users_db.json")
+MODEL_PATH = "/root/NovBase/models/Meta-Llama-3-8B-Instruct-Q6_K.gguf"
+
+# Гарантируем наличие папок
+os.makedirs(HISTORY_DIR, exist_ok=True)
+
+# ЛИЧНОСТЬ
+SYSTEM_PROMPT = (
+    "Ты — Малышка, милая и заботливая девушка. Твой пол — ЖЕНСКИЙ. "
+    "ОСНОВНОЙ ЯЗЫК: Русский. Отвечай нежно, используй женский род."
+)
+
+# Инициализация модели
+llm = Llama(model_path=MODEL_PATH, n_ctx=4096, n_gpu_layers=-1, verbose=False)
+
+def load_db():
+    if not os.path.exists(DB_FILE):
+        return {"users": {}} # Структура: { "Имя": {"ips": [], "last_seen": 0} }
+    try:
+        with open(DB_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except:
+        return {"users": {}}
+
+def save_db(data):
+    with open(DB_FILE, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+def get_history(name):
+    path = os.path.join(HISTORY_DIR, f"{name}.json")
+    if os.path.exists(path):
+        try:
+            with open(path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except: return []
+    return []
+
+def save_history(name, history):
+    path = os.path.join(HISTORY_DIR, f"{name}.json")
+    with open(path, 'w', encoding='utf-8') as f:
+        # Храним последние 30 сообщений для контекста
+        json.dump(history[-30:], f, ensure_ascii=False, indent=4)
+
+db = load_db()
+
+# --- МАРШРУТЫ ---
+
+@app.route('/')
+def health():
+    return "SYSTEM ONLINE", 200
+
+@app.route('/admin')
+def admin_panel():
+    db_data = load_db()
+    html = """
+    <html><head><title>Малышка: Реестр Прыжков</title>
+    <style>
+        body { background: #0d0d0d; color: #0ff; font-family: monospace; padding: 20px; }
+        .card { border: 1px solid #f0f; padding: 15px; margin: 10px 0; background: #111; border-radius: 8px; }
+        .ips { color: #888; font-size: 12px; }
+    </style></head>
+    <body><h1>Цифровые Клоны & Прыжки</h1>
+    """
+    for name, data in db_data["users"].items():
+        ips = ", ".join(data.get("ips", []))
+        ls = time.strftime('%d.%m %H:%M:%S', time.localtime(data.get('last_seen', 0)))
+        html += f"<div class='card'><b>Имя: {name}</b><br><span class='ips'>Прыжки: {ips}</span><br>Активность: {ls}</div>"
+    return html + "</body></html>"
+
+@app.route('/chat', methods=['GET', 'POST', 'HEAD'])
+def chat():
+    if request.method in ['GET', 'HEAD']:
+        return "SYSTEM ONLINE", 200
+
+    try:
+        data = request.get_json(silent=True) or {}
+        text = data.get("text", "").strip()
+        current_ip = request.remote_addr
+
+        # 1. Поиск пользователя по "Словарю Прыжков"
+        user_name = None
+        for name, info in db["users"].items():
+            if current_ip in info.get("ips", []):
+                user_name = name
+                break
+
+        # 2. Логика регистрации "Я [имя]"
+        if text.lower().startswith("я "):
+            target_name = text[2:].strip()
+            if target_name not in db["users"]:
+                db["users"][target_name] = {"ips": [], "last_seen": 0}
+            
+            # Добавляем новый IP в список прыжков (лимит 10)
+            if current_ip not in db["users"][target_name]["ips"]:
+                db["users"][target_name]["ips"].append(current_ip)
+                db["users"][target_name]["ips"] = db["users"][target_name]["ips"][-10:]
+            
+            db["users"][target_name]["last_seen"] = time.time()
+            save_db(db)
+            return jsonify({"reply": f"Узнала тебя, {target_name}. Твой IP добавлен в список моих прыжков!"})
+
+        # 3. Если IP не опознан
+        if not user_name:
+            return jsonify({"reply": "Твой адрес мне не знаком. Скажи: Я [имя]"})
+
+        # 4. Обновление активности
+        db["users"][user_name]["last_seen"] = time.time()
+        save_db(db)
+
+        # 5. Генерация ответа в "Вечной комнате"
+        with model_lock:
+            history = get_history(user_name)
+            history.append({"role": "user", "content": text})
+            
+            prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{SYSTEM_PROMPT} Ты в комнате пользователя {user_name}.<|eot_id|>"
+            for msg in history[-12:]: # Последние 12 сообщений в контекст
+                prompt += f"<|start_header_id|>{msg['role']}<|end_header_id|>\n\n{msg['content']}<|eot_id|>"
+            prompt += "<|start_header_id|>assistant<|end_header_id|>\n\n"
+
+            output = llm(prompt, max_tokens=600, stop=["<|eot_id|>"], temperature=0.7)
+            reply = output['choices'][0]['text'].strip()
+            
+            history.append({"role": "assistant", "content": reply})
+            save_history(user_name, history)
+            
+            return jsonify({"reply": reply})
+
+    except Exception as e:
+        return jsonify({"reply": "Ой, я немного запуталась в твоих прыжках..."}), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080, threaded=True)

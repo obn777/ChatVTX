@@ -1,0 +1,144 @@
+import os
+import json
+import time
+from flask import Flask, request, jsonify
+from llama_cpp import Llama
+from threading import Lock
+
+app = Flask(__name__)
+model_lock = Lock()
+
+# --- КОНФИГУРАЦИЯ ---
+BASE_DIR = os.path.expanduser("~/NovBase")
+DB_FILE = os.path.join(BASE_DIR, "users_db.json")
+MODEL_PATH = "/root/NovBase/models/Meta-Llama-3-8B-Instruct-Q6_K.gguf"
+
+# ЛИЧНОСТЬ МАЛЫШКИ
+SYSTEM_PROMPT = (
+    "Ты — Малышка, милая и заботливая девушка. Твой пол — ЖЕНСКИЙ. "
+    "ОСНОВНОЙ ЯЗЫК: Русский. Отвечай нежно, используй женский род (я подумала, я создала)."
+)
+
+# Инициализация модели
+llm = Llama(model_path=MODEL_PATH, n_ctx=4096, n_gpu_layers=-1, verbose=False)
+
+def load_db():
+    default = {"names": {}, "profiles": {}}
+    if not os.path.exists(DB_FILE):
+        return default
+    try:
+        with open(DB_FILE, 'r', encoding='utf-8') as f:
+            content = f.read().strip()
+            if not content: return default
+            data = json.loads(content)
+            if "profiles" not in data: data["profiles"] = {}
+            if "names" not in data: data["names"] = {}
+            return data
+    except:
+        return default
+
+def save_db(db_data):
+    with open(DB_FILE, 'w', encoding='utf-8') as f:
+        json.dump(db_data, f, ensure_ascii=False, indent=4)
+
+db = load_db()
+chat_history = {}
+
+# --- МАРШРУТЫ ---
+
+@app.route('/')
+def health():
+    # Ответ для проверки связи из корня
+    return "SYSTEM ONLINE", 200
+
+@app.route('/admin')
+def admin_panel():
+    profiles = db.get("profiles", {})
+    html = """
+    <html><head><title>Малышка Admin</title>
+    <style>
+        body { background: #0d0d0d; color: #fff; font-family: 'Segoe UI', sans-serif; padding: 30px; }
+        h1 { color: #0ff; text-shadow: 0 0 10px #0ff; border-bottom: 2px solid #f0f; display: inline-block; }
+        .card { border: 1px solid #f0f; padding: 15px; margin: 15px 0; background: #1a1a1a; 
+                border-radius: 10px; box-shadow: 0 0 10px rgba(255,0,255,0.2); max-width: 500px; }
+        .name { color: #f0f; font-size: 22px; font-weight: bold; }
+        .meta { color: #0ff; font-family: monospace; font-size: 13px; margin-top: 5px; }
+        .time { color: #888; font-size: 11px; }
+    </style></head>
+    <body><h1>Цифровые Клоны</h1>
+    """
+    if not profiles:
+        html += "<p>База пуста. Авторизуйтесь в чате!</p>"
+    for name, data in profiles.items():
+        ls = time.strftime('%d.%m %H:%M:%S', time.localtime(data.get('last_seen', 0)))
+        html += f"<div class='card'><div class='name'>{name}</div>"
+        html += f"<div class='meta'>IP: {data.get('last_ip')}</div>"
+        html += f"<div class='time'>Последняя активность: {ls}</div></div>"
+    return html + "</body></html>"
+
+@app.route('/chat', methods=['GET', 'POST', 'HEAD'])
+def chat():
+    # Поддержка огонька (GET/HEAD запросы)
+    if request.method in ['GET', 'HEAD']:
+        return "SYSTEM ONLINE", 200
+
+    try:
+        data = request.get_json(silent=True)
+        if not data or "text" not in data:
+            return "SYSTEM ONLINE", 200
+
+        current_ip = request.remote_addr
+        text = data.get("text", "").strip()
+
+        # Регистрация: Я [имя]
+        if text.lower().startswith("я "):
+            target_name = text[2:].strip()
+            # Защита от перехвата имени (1 час)
+            existing = db["profiles"].get(target_name)
+            if existing and existing["last_ip"] != current_ip:
+                if time.time() - existing["last_seen"] < 3600:
+                    return jsonify({"reply": "Это имя сейчас занято моим оригиналом. Попробуй позже."})
+
+            db["names"][current_ip] = target_name
+            if target_name not in db["profiles"]:
+                db["profiles"][target_name] = {"last_ip": current_ip, "last_seen": time.time()}
+            else:
+                db["profiles"][target_name]["last_ip"] = current_ip
+                db["profiles"][target_name]["last_seen"] = time.time()
+            save_db(db)
+            return jsonify({"reply": f"Принято! Теперь я знаю, что это ты, {target_name}."})
+
+        # Проверка авторизации
+        user_name = db["names"].get(current_ip)
+        if not user_name:
+            return jsonify({"reply": "Привет! Я Малышка. Давай познакомимся? Напиши: Я [имя]"})
+
+        # Обновляем профиль
+        db["profiles"][user_name]["last_seen"] = time.time()
+        db["profiles"][user_name]["last_ip"] = current_ip
+        save_db(db)
+
+        with model_lock:
+            if user_name not in chat_history:
+                chat_history[user_name] = []
+            
+            chat_history[user_name].append({"role": "user", "content": text})
+            chat_history[user_name] = chat_history[user_name][-10:]
+
+            # Промпт без дублирующего токена начала текста
+            prompt = f"<|start_header_id|>system<|end_header_id|>\n\n{SYSTEM_PROMPT} Ты общаешься с {user_name}.<|eot_id|>"
+            for msg in chat_history[user_name]:
+                prompt += f"<|start_header_id|>{msg['role']}<|end_header_id|>\n\n{msg['content']}<|eot_id|>"
+            prompt += "<|start_header_id|>assistant<|end_header_id|>\n\n"
+
+            output = llm(prompt, max_tokens=800, stop=["<|eot_id|>"], temperature=0.7)
+            reply = output['choices'][0]['text'].strip()
+            chat_history[user_name].append({"role": "assistant", "content": reply})
+            
+            return jsonify({"reply": reply})
+
+    except Exception as e:
+        return jsonify({"reply": "Ой, что-то пошло не так в моих мыслях..."}), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080, threaded=True)
