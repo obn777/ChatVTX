@@ -1,0 +1,23 @@
+name: Deploy ChatVTX to Vast.ai
+
+on:
+  push:
+    branches: [ main ] # Запускать при каждом сохранении в ветку main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: 79.145.233.252 # Твой IP
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }} # Тот самый секрет, который мы создали
+          port: 40152 # Проверь свой SSH-порт в консоли Vast.ai!
+          script: |
+            cd /root/NovBase
+            git pull origin main
+            fuser -k 8080/tcp
+            nohup python3 app.py > dispatcher.log 2>&1 &
+            echo "Деплой завершен успешно!"
