@@ -2,7 +2,7 @@ name: Deploy ChatVTX to Vast.ai
 
 on:
   push:
-    branches: [ main ] # Запускать при каждом сохранении в ветку main
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -11,13 +11,30 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
-          host: 79.145.233.252 # Твой IP
+          host: 79.145.233.252
           username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }} # Тот самый секрет, который мы создали
-          port: 40152 # Проверь свой SSH-порт в консоли Vast.ai!
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 40152
           script: |
-            cd /root/NovBase
-            git pull origin main
-            fuser -k 8080/tcp
+            # Переходим в рабочую директорию
+            cd /root/NovBase || mkdir -p /root/NovBase && cd /root/NovBase
+            
+            # Настраиваем гит, если папка пустая
+            if [ ! -d ".git" ]; then
+              git init
+              git remote add origin https://github.com/obn777/ChatVTX.git
+            fi
+            
+            # Принудительно затягиваем код из GitHub
+            git fetch --all
+            git reset --hard origin/main
+            
+            # Убиваем старый процесс на порту 8080
+            fuser -k 8080/tcp || true
+            
+            # Запускаем обновленный app.py
+            # Важно: внутри app.py должен быть port=8080
             nohup python3 app.py > dispatcher.log 2>&1 &
-            echo "Деплой завершен успешно!"
+            
+            echo "--- ДЕПЛОЙ ChatVTX ЗАВЕРШЕН ---"
+            echo "Мониторинг: http://79.145.233.252:40183/admin"
