@@ -11,10 +11,10 @@ jobs:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
-          host: 79.145.233.252
+          host: 142.127.68.223
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 40152
+          port: 5308
           script: |
             # Переходим в рабочую директорию
             cd /root/NovBase || mkdir -p /root/NovBase && cd /root/NovBase
