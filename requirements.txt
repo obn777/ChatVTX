@@ -1,0 +1,5 @@
+flask
+llama-cpp-python
+numpy
+requests
+psutil

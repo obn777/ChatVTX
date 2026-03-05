@@ -1,0 +1,3 @@
+nohup: ввод игнорируется
+✅ [SYSTEM]: Ядра NovBase загружены
+❌ [CRITICAL]: No module named 'llama_cpp'

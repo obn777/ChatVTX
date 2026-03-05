@@ -1,0 +1,22 @@
+{"event_id": "inference_event", "action": "generate_answer", "intent": "greeting", "query_len": 19, "ans_len": 68, "status": "success", "ts_sync": "2026-02-18 23:04:21", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "query_len": 19, "ans_len": 58, "status": "success", "ts_sync": "2026-02-18 23:04:36", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "query_len": 25, "ans_len": 116, "status": "success", "ts_sync": "2026-02-18 23:04:51", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "cache_hit", "query_len": 16, "ans_len": 17, "status": "success", "ts_sync": "2026-02-18 23:05:15", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "query_len": 22, "ans_len": 37, "status": "success", "ts_sync": "2026-02-18 23:05:26", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "recall", "query_len": 14, "ans_len": 8, "status": "success", "ts_sync": "2026-02-18 23:05:35", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "query_len": 14, "ans_len": 16, "status": "success", "ts_sync": "2026-02-18 23:05:42", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-18 23:17:08", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-18 23:17:38", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-18 23:18:06", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-18 23:18:31", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-18 23:18:53", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-18 23:34:54", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-18 23:36:06", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-18 23:42:32", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-18 23:43:12", "bridge_version": "0.1"}
+{"event_id": "sci_call_auto", "query": "площадь круга с радиусом 10 ->", "status": "success", "ts_sync": "2026-02-18 23:43:41", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "scientific_calc", "status": "success", "ts_sync": "2026-02-18 23:44:29", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-19 00:00:57", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "scientific_calc", "status": "success", "ts_sync": "2026-02-19 00:04:15", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-19 00:11:55", "bridge_version": "0.1"}
+{"event_id": "inference_event", "action": "generate_answer", "intent": "unknown", "status": "success", "ts_sync": "2026-02-19 00:17:38", "bridge_version": "0.1"}

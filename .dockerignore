@@ -1,0 +1,6 @@
+models/
+venv/
+*.log
+backup/
+core_update.tar.gz
+novbase_update.tar.gz

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ChatVtx | Digital Hub</title>
+    <style>
+        :root {
+            --main: #00ff41;
+            --bg: #000000;
+            --panel: #0a0a0a;
+        }
+
+        /* Используем dvh для динамической высоты под мобилки */
+        body, html {
+            height: 100dvh; margin: 0; padding: 0;
+            background: var(--bg); color: #e6edf3;
+            font-family: 'Consolas', monospace; overflow: hidden;
+            position: fixed; width: 100%; /* Предотвращает дергание экрана */
+        }
+
+        .wrapper { display: flex; height: 100dvh; width: 100vw; position: relative; }
+
+        /* САЙДБАР */
+        .sidebar {
+            width: 250px; background: var(--panel); border-right: 1px solid var(--main);
+            display: flex; flex-direction: column; align-items: center; padding: 20px 10px;
+            transition: 0.3s; z-index: 1000;
+        }
+
+        @keyframes rainbow-glow {
+            0% { border-color: #00ff41; box-shadow: 0 0 15px #00ff41; }
+            33% { border-color: #00e5ff; box-shadow: 0 0 15px #00e5ff; }
+            66% { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
+            100% { border-color: #00ff41; box-shadow: 0 0 15px #00ff41; }
+        }
+
+        .avatar {
+            width: 90px; height: 90px; border-radius: 50%;
+            border: 3px solid var(--main); margin-bottom: 10px; margin-top: 20px;
+            object-fit: cover;
+            animation: rainbow-glow 4s linear infinite;
+        }
+
+        /* ПЛАВАЮЩАЯ КНОПКА */
+        .toggle-btn {
+            position: absolute; top: 15px; left: 15px;
+            color: var(--main); cursor: pointer; font-size: 0.9rem;
+            border: 1px solid var(--main); padding: 5px 12px;
+            background: var(--bg); z-index: 1100;
+            border-radius: 20px;
+            transition: 0.2s;
+        }
+
+        /* ОСНОВНОЙ КОНТЕНТ */
+        .main-content {
+            flex: 1; display: flex; flex-direction: column;
+            background: #000; min-width: 0; height: 100dvh;
+        }
+
+        #chat-window {
+            flex: 1; overflow-y: auto; padding: 25px;
+            color: var(--main); background: #000;
+            padding-top: 70px;
+            -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+        }
+
+        /* НИЖНЯЯ ПАНЕЛЬ ВВОДА - ФИКСИРОВАННАЯ */
+        .input-area {
+            display: flex; border-top: 1px solid #1a1a1a;
+            background: #0a0a0a; padding: 15px; gap: 10px;
+            /* Учет безопасных зон для безрамочных телефонов */
+            padding-bottom: calc(15px + env(safe-area-inset-bottom));
+        }
+
+        input#user-input {
+            flex: 1; background: #000; border: 1px solid #333;
+            color: #fff; padding: 12px 20px; outline: none;
+            font-family: inherit; font-size: 16px;
+            border-radius: 25px !important;
+        }
+
+        .btn-ui {
+            background: transparent; color: var(--main);
+            border: 1px solid var(--main); padding: 0 20px;
+            cursor: pointer; font-weight: bold; font-family: inherit;
+            border-radius: 25px !important;
+        }
+
+        /* АДАПТИВНОСТЬ */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                left: -260px;
+                height: 100dvh;
+                box-shadow: 10px 0 20px rgba(0,0,0,0.8);
+            }
+            .sidebar.active { left: 0; }
+            #chat-window { padding: 15px; padding-top: 70px; }
+            .input-area { padding: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+        }
+
+        @media (min-width: 769px) {
+            .sidebar.hidden { margin-left: -250px; border: none; }
+        }
+
+        .status-bar { font-size: 0.7rem; color: var(--main); text-align: center; margin-bottom: auto; line-height: 1.6; }
+        .auth-area { width: 90%; display: flex; flex-direction: column; align-items: center; margin-bottom: 15px; }
+        .key-input { width: 100%; background: #000; border: 1px solid #333; color: var(--main); padding: 10px; border-radius: 25px !important; margin-bottom: 10px; text-align: center; outline: none; }
+        .btn-download { border: 1px solid var(--main); color: var(--main) !important; text-align: center; width: 100%; padding: 10px; text-decoration: none; border-radius: 25px !important; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+    <div class="toggle-btn" id="t-btn" onclick="toggleSidebar()">[ < ]</div>
+
+    <div class="wrapper">
+        <div class="sidebar" id="sidebar">
+            <img src="/static/ai_avatar.png" class="avatar" alt="Face">
+            <h1 style="font-size: 1.2rem; color: var(--main); margin: 5px 0 20px 0;">ChatVtx</h1>
+
+            <div class="status-bar">
+                STATUS: ONLINE<br>
+                GEO: LOCALHUB<br>
+                ENC: AES-256
+            </div>
+
+            <div class="auth-area">
+                <input type="password" id="access-key" class="key-input" placeholder="КЛЮЧ АКТИВАЦИИ">
+                <a href="/download/chatvtx.zip" class="btn-download">DOWNLOAD ZIP</a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div id="chat-window"></div>
+            <div class="input-area">
+                <button class="btn-ui" onclick="clearChat()">CLS</button>
+                <input type="text" id="user-input" placeholder="Команда..." autocomplete="off">
+                <button class="btn-ui" onclick="send()">RUN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const btn = document.getElementById('t-btn');
+
+            if (window.innerWidth <= 768) {
+                sidebar.classList.toggle('active');
+                btn.innerHTML = sidebar.classList.contains('active') ? '[ > ]' : '[ < ]';
+            } else {
+                sidebar.classList.toggle('hidden');
+                btn.innerHTML = sidebar.classList.contains('hidden') ? '[ > ]' : '[ < ]';
+            }
+        }
+
+        function clearChat() { document.getElementById('chat-window').innerHTML = ''; }
+
+        async function send() {
+            const input = document.getElementById('user-input');
+            const keyInput = document.getElementById('access-key');
+            const chatWin = document.getElementById('chat-window');
+
+            if(!input.value.trim()) return;
+
+            const text = input.value;
+            chatWin.innerHTML += `<div style="margin-bottom: 12px; color: #555">>> ${text}</div>`;
+            input.value = '';
+            chatWin.scrollTop = chatWin.scrollHeight;
+
+            if (window.innerWidth <= 768) {
+                document.getElementById('sidebar').classList.remove('active');
+                document.getElementById('t-btn').innerHTML = '[ < ]';
+            }
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ text: text, key: keyInput.value })
+                });
+                const data = await response.json();
+                chatWin.innerHTML += `<div style="margin-bottom: 20px; border-left: 1px solid var(--main); padding-left: 10px;">${data.reply}</div>`;
+            } catch (e) {
+                chatWin.innerHTML += `<div style="color: #ff4141">! CRITICAL CONNECTION ERROR</div>`;
+            }
+            chatWin.scrollTop = chatWin.scrollHeight;
+        }
+
+        document.getElementById('user-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') send();
+        });
+    </script>
+</body>
+</html>

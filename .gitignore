@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.onnx
+*.json
+*.ogg
+*.tar.gz
+*.zip

@@ -1,0 +1,355 @@
+[2026-03-03 02:20:45] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 02:34:23] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 02:41:08] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 02:48:49] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:00:03] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:01:44] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:04:32] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:18:24] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:19:32] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:26:28] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:30:08] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:34:08] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:36:03] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:41:13] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:50:01] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 03:50:41] [LogicProcessor] Анализ: Ты здесь?...
+[2026-03-03 03:50:41] [LogicProcessor] Специфическая логика не сработала. Переход к LLM 8b.
+[2026-03-03 03:51:21] [LogicProcessor] Анализ: Расскажи о себе...
+[2026-03-03 03:51:21] [LogicProcessor] Специфическая логика не сработала. Переход к LLM 8b.
+[2026-03-03 03:51:47] [LogicProcessor] Анализ: Как тебя зовут...
+[2026-03-03 03:51:47] [LogicProcessor] Специфическая логика не сработала. Переход к LLM 8b.
+[2026-03-03 03:51:57] [LogicProcessor] Анализ: Кто тебя построил...
+[2026-03-03 03:51:57] [LogicProcessor] Специфическая логика не сработала. Переход к LLM 8b.
+[2026-03-03 03:52:22] [LogicProcessor] Анализ: У тебя есть память...
+[2026-03-03 03:52:22] [LogicProcessor] Специфическая логика не сработала. Переход к LLM 8b.
+[2026-03-03 03:55:32] [LogicProcessor] Анализ: у тебя есть память...
+[2026-03-03 03:55:32] [LogicProcessor] Специфическая логика не сработала. Переход к LLM 8b.
+[2026-03-03 04:09:53] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 04:10:31] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:10:31] [LogicProcessor] Анализ: расскажи о себе...
+[2026-03-03 04:10:31] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:11:05] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:11:05] [LogicProcessor] Анализ: кто тебя создал?...
+[2026-03-03 04:11:05] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:11:42] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:11:42] [LogicProcessor] Анализ: что ты умеешь?...
+[2026-03-03 04:11:42] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:12:42] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:12:42] [LogicProcessor] Анализ: квантование моделей...
+[2026-03-03 04:12:42] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:13:47] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:13:47] [LogicProcessor] Анализ: сколько у тебя когнитивных слоев?...
+[2026-03-03 04:13:47] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:15:38] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:15:38] [LogicProcessor] Анализ: ты имеешь реальный выход в интернет, можешь взять ...
+[2026-03-03 04:15:38] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:16:10] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:16:10] [LogicProcessor] Анализ: московское время?...
+[2026-03-03 04:16:10] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:16:45] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:16:45] [LogicProcessor] Анализ: война в иране...
+[2026-03-03 04:16:45] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:17:32] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:17:32] [LogicProcessor] Анализ: запомни число 123...
+[2026-03-03 04:17:32] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:18:00] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:18:00] [LogicProcessor] Анализ: какое число ты запомнила?...
+[2026-03-03 04:18:00] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:21:57] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 04:22:34] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:22:34] [LogicProcessor] Анализ: Как тебя зовут и кто твой создатель?...
+[2026-03-03 04:22:34] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:23:19] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:23:19] [LogicProcessor] Анализ: У тебя есть память?...
+[2026-03-03 04:23:19] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:24:07] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:24:07] [LogicProcessor] Анализ: запомни 876...
+[2026-03-03 04:24:07] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:24:33] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:24:33] [LogicProcessor] Анализ: что я просил запомнить?...
+[2026-03-03 04:24:33] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:25:05] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:25:05] [LogicProcessor] Анализ: какое число ты запомнила?...
+[2026-03-03 04:25:05] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:28:22] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 04:28:54] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:28:54] [LogicProcessor] Анализ: привет...
+[2026-03-03 04:29:14] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:29:14] [LogicProcessor] Анализ: Георгий...
+[2026-03-03 04:29:14] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:29:41] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:29:41] [LogicProcessor] Анализ: что случилось?...
+[2026-03-03 04:29:41] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:30:23] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:30:23] [LogicProcessor] Анализ: привет...
+[2026-03-03 04:30:41] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:30:41] [LogicProcessor] Анализ: Георгий...
+[2026-03-03 04:30:41] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:34:22] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 04:34:42] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:34:42] [LogicProcessor] Анализ: привет...
+[2026-03-03 04:35:04] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:35:04] [LogicProcessor] Анализ: Георгий...
+[2026-03-03 04:35:04] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:35:38] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:35:38] [LogicProcessor] Анализ: запомни число 908...
+[2026-03-03 04:35:38] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:36:06] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:36:06] [LogicProcessor] Анализ: какое число ты запомнила?...
+[2026-03-03 04:36:06] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:41:55] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 04:42:20] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:42:20] [LogicProcessor] Анализ: привет...
+[2026-03-03 04:42:36] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:42:36] [LogicProcessor] Анализ: Георгий...
+[2026-03-03 04:42:36] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:43:00] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:43:00] [LogicProcessor] Анализ: запомни число 564...
+[2026-03-03 04:43:00] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:43:29] [LogicProcessor] Запуск process_message.
+[2026-03-03 04:43:29] [LogicProcessor] Анализ: какое число ты запомнила?...
+[2026-03-03 04:43:29] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 04:59:32] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 05:03:45] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 05:08:47] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 05:09:08] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:09:08] [LogicProcessor] Анализ: привет...
+[2026-03-03 05:09:30] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:09:30] [LogicProcessor] Анализ: Георгий...
+[2026-03-03 05:09:30] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:09:55] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:09:55] [LogicProcessor] Анализ: запомни число 555...
+[2026-03-03 05:09:55] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:10:11] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:10:11] [LogicProcessor] Анализ: число?...
+[2026-03-03 05:10:11] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:10:35] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:10:35] [LogicProcessor] Анализ: что ты запомнила?...
+[2026-03-03 05:10:35] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:11:09] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:11:09] [LogicProcessor] Анализ: тебя просили запомнить что?...
+[2026-03-03 05:11:09] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:11:28] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:11:28] [LogicProcessor] Анализ: какое число?...
+[2026-03-03 05:11:28] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:14:14] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 05:14:43] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:14:43] [LogicProcessor] Анализ: привет...
+[2026-03-03 05:15:02] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:15:02] [LogicProcessor] Анализ: Георгий...
+[2026-03-03 05:15:02] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:15:18] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:15:18] [LogicProcessor] Анализ: я...
+[2026-03-03 05:15:18] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:15:41] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:15:41] [LogicProcessor] Анализ: как тебя звать?...
+[2026-03-03 05:15:41] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:16:07] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:16:07] [LogicProcessor] Анализ: квадрат гипотенузы?...
+[2026-03-03 05:16:07] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:16:36] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:16:36] [LogicProcessor] Анализ: какое число ты помнишь?...
+[2026-03-03 05:16:36] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:17:34] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:17:34] [LogicProcessor] Анализ: подробно про свою архитектуру...
+[2026-03-03 05:17:34] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:18:32] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:18:32] [LogicProcessor] Анализ: что у тебя под капотом?...
+[2026-03-03 05:18:32] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:19:17] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:19:17] [LogicProcessor] Анализ: подробно о падении рима...
+[2026-03-03 05:19:17] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:19:43] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:19:43] [LogicProcessor] Анализ: дальше...
+[2026-03-03 05:19:43] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:27:29] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 05:27:58] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:27:58] [LogicProcessor] Анализ: «Объясни принцип квантовой запутанности и то, как ...
+[2026-03-03 05:27:58] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:29:16] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:29:16] [LogicProcessor] Анализ: «Проведи глубокий сравнительный анализ причин паде...
+[2026-03-03 05:29:16] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:30:50] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:30:50] [LogicProcessor] Анализ: «Если рассматривать человеческий мозг как биологич...
+[2026-03-03 05:30:50] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:31:39] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:31:39] [LogicProcessor] Анализ: «Разверни концепцию дихотомии контроля в стоицизме...
+[2026-03-03 05:31:39] [LogicProcessor] Сработал мед-фильтр.
+[2026-03-03 05:32:07] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:32:07] [LogicProcessor] Анализ: «Опиши детальный поэтапный план тераформирования М...
+[2026-03-03 05:32:07] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 05:38:03] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 05:39:26] [LogicProcessor] Запуск process_message.
+[2026-03-03 05:39:26] [LogicProcessor] Анализ: «Опиши детальный поэтапный план терраформирования ...
+[2026-03-03 05:39:26] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 10:01:51] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 10:02:47] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:02:47] [LogicProcessor] Анализ: Доброе утро...
+[2026-03-03 10:02:47] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 10:03:00] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:03:00] [LogicProcessor] Анализ: Добрым словом...
+[2026-03-03 10:03:00] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 10:03:36] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:03:36] [LogicProcessor] Анализ: Запомни число 15...
+[2026-03-03 10:03:36] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 10:03:56] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:03:56] [LogicProcessor] Анализ: Какое число Я просил запомнить...
+[2026-03-03 10:03:56] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 10:06:10] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:06:10] [LogicProcessor] Анализ: привет...
+[2026-03-03 10:06:37] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:06:37] [LogicProcessor] Анализ: Георгий...
+[2026-03-03 10:06:37] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 10:08:21] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:08:21] [LogicProcessor] Анализ: доброе утро...
+[2026-03-03 10:08:21] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 10:13:29] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 10:14:11] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:14:11] [LogicProcessor] Анализ: мы снова вместе!...
+[2026-03-03 10:14:11] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 10:15:48] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:15:48] [LogicProcessor] Анализ: тема - когнетивные слои ии...
+[2026-03-03 10:15:48] [LogicProcessor] Переход к генерации LLM через PromptManager.
+[2026-03-03 10:26:13] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 10:26:35] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:26:35] [LogicProcessor] Анализ: привет...
+[2026-03-03 10:27:11] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:27:11] [LogicProcessor] Анализ: столица франции?...
+[2026-03-03 10:27:11] [LogicProcessor] Специфическая логика не найдена. Передача в LLM.
+[2026-03-03 10:27:39] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:27:39] [LogicProcessor] Анализ: глубина байкала?...
+[2026-03-03 10:27:39] [LogicProcessor] Специфическая логика не найдена. Передача в LLM.
+[2026-03-03 10:28:24] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:28:24] [LogicProcessor] Анализ: сколько лет планете земля?...
+[2026-03-03 10:28:24] [LogicProcessor] Специфическая логика не найдена. Передача в LLM.
+[2026-03-03 10:29:21] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:29:21] [LogicProcessor] Анализ: почему луна всегда повернута одной стороной к земл...
+[2026-03-03 10:29:21] [LogicProcessor] Специфическая логика не найдена. Передача в LLM.
+[2026-03-03 10:30:19] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:30:19] [LogicProcessor] Анализ: подробно о себе...
+[2026-03-03 10:30:19] [LogicProcessor] Специфическая логика не найдена. Передача в LLM.
+[2026-03-03 10:38:33] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 10:39:06] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:39:06] [LogicProcessor] Анализ: «Напиши подробный технический и философский тракта...
+[2026-03-03 10:39:06] [LogicProcessor] Активация нестандартного мышления.
+[2026-03-03 10:41:46] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 10:42:13] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:42:13] [LogicProcessor] Анализ: «Напиши подробный технический и философский тракта...
+[2026-03-03 10:42:13] [LogicProcessor] Активация нестандартного мышления.
+[2026-03-03 10:47:41] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 10:48:01] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:48:01] [LogicProcessor] Анализ: «Напиши подробный технический и философский тракта...
+[2026-03-03 10:48:01] [LogicProcessor] Активация нестандартного мышления.
+[2026-03-03 10:53:54] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 10:54:16] [LogicProcessor] Запуск process_message.
+[2026-03-03 10:54:16] [LogicProcessor] Анализ: «Напиши подробный технический и философский тракта...
+[2026-03-03 10:54:16] [LogicProcessor] Активация нестандартного мышления.
+[2026-03-03 11:00:15] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 11:00:35] [LogicProcessor] Анализ: «Напиши подробный технический и философский тракта...
+[2026-03-03 11:00:35] [LogicProcessor] Передача в LLM (либо сложная задача, либо нет триггеров).
+[2026-03-03 11:06:26] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 11:07:17] [LogicProcessor] Анализ: «Малышка, проведи самодиагностику своих когнитивны...
+[2026-03-03 11:07:17] [LogicProcessor] Передача в LLM (либо сложная задача, либо нет триггеров).
+[2026-03-03 11:19:56] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 11:20:24] [LogicProcessor] Анализ: «Малышка, проведи самодиагностику своих когнитивны...
+[2026-03-03 11:20:24] [LogicProcessor] Передача в LLM (либо сложная задача, либо нет триггеров).
+[2026-03-03 11:20:49] [LogicProcessor] Анализ: доброе утро...
+[2026-03-03 11:20:49] [LogicProcessor] Передача в LLM (либо сложная задача, либо нет триггеров).
+[2026-03-03 11:21:28] [LogicProcessor] Анализ: начинаем день с завтрака...
+[2026-03-03 11:21:28] [LogicProcessor] Передача в LLM (либо сложная задача, либо нет триггеров).
+[2026-03-03 11:59:23] [LogicProcessor] Инициализация: Digital Clone + Out-of-the-box mode.
+[2026-03-03 12:00:47] [LogicProcessor] Анализ: привет...
+[2026-03-03 12:01:16] [LogicProcessor] Анализ: столица грузии...
+[2026-03-03 12:01:16] [LogicProcessor] Передача в LLM (либо сложная задача, либо нет триггеров).
+[2026-03-03 12:07:48] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 12:07:48] [LogicProcessor] Mid-Cognition Controller подключен.
+[2026-03-03 12:08:06] [LogicProcessor] Запуск process_message.
+[2026-03-03 12:10:26] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 12:10:26] [LogicProcessor] Mid-Cognition Controller подключен.
+[2026-03-03 12:10:44] [LogicProcessor] Запуск process_message.
+[2026-03-03 12:10:44] [LogicProcessor] Когнитивный анализ завершен. Состояние: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 12:10:44] [LogicProcessor] Анализ: привет...
+[2026-03-03 12:11:04] [LogicProcessor] Запуск process_message.
+[2026-03-03 12:11:04] [LogicProcessor] Когнитивный анализ завершен. Состояние: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 12:11:04] [LogicProcessor] Анализ: высота эвереста...
+[2026-03-03 12:11:04] [LogicProcessor] Передача в LLM (либо сложная задача, либо нет триггеров).
+[2026-03-03 12:15:40] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 12:15:40] [LogicProcessor] Mid-Cognition Controller подключен.
+[2026-03-03 12:16:03] [LogicProcessor] Запуск process_message.
+[2026-03-03 12:16:03] [LogicProcessor] Когниция активна. Эмоция: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 12:16:03] [LogicProcessor] Анализ: «Малышка, запиши для меня подробный план оптимизац...
+[2026-03-03 12:16:03] [LogicProcessor] Когнитивный контекст интегрирован в промпт.
+[2026-03-03 12:23:55] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 12:23:55] [LogicProcessor] Mid-Cognition Controller подключен.
+[2026-03-03 12:24:17] [LogicProcessor] Запуск process_message.
+[2026-03-03 12:24:17] [LogicProcessor] Когниция активна. Эмоция: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 12:24:17] [LogicProcessor] Анализ: «Малышка, запиши для меня подробный план оптимизац...
+[2026-03-03 12:24:17] [LogicProcessor] Когнитивный контекст интегрирован в промпт.
+[2026-03-03 12:24:40] [LogicProcessor] Запуск process_message.
+[2026-03-03 12:24:40] [LogicProcessor] Когниция активна. Эмоция: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 12:24:40] [LogicProcessor] Анализ: оптионально о себе...
+[2026-03-03 12:24:40] [LogicProcessor] Когнитивный контекст интегрирован в промпт.
+[2026-03-03 12:28:54] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 12:28:54] [LogicProcessor] Mid-Cognition Controller подключен.
+[2026-03-03 12:29:16] [LogicProcessor] Запуск process_message.
+[2026-03-03 12:29:16] [LogicProcessor] Когниция активна. Эмоция: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 12:29:16] [LogicProcessor] Анализ: оптионально о себе...
+[2026-03-03 12:29:16] [LogicProcessor] Когнитивный контекст интегрирован в промпт.
+[2026-03-03 12:29:37] [LogicProcessor] Запуск process_message.
+[2026-03-03 12:29:37] [LogicProcessor] Когниция активна. Эмоция: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 12:29:37] [LogicProcessor] Анализ: твои резервы?...
+[2026-03-03 12:29:37] [LogicProcessor] Когнитивный контекст интегрирован в промпт.
+[2026-03-03 12:33:17] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 12:33:17] [LogicProcessor] Mid-Cognition Controller подключен.
+[2026-03-03 12:38:09] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 12:38:09] [LogicProcessor] Mid-Cognition Controller подключен.
+[2026-03-03 12:39:02] [LogicProcessor] Запуск process_message.
+[2026-03-03 12:39:02] [LogicProcessor] Когниция активна. Эмоция: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 12:39:02] [LogicProcessor] Анализ: обьективный анализ всех слоев...
+[2026-03-03 12:39:02] [LogicProcessor] Когнитивный контекст интегрирован в промпт.
+[2026-03-03 12:40:40] [LogicProcessor] Запуск process_message.
+[2026-03-03 12:40:40] [LogicProcessor] Когниция активна. Эмоция: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 12:40:40] [LogicProcessor] Анализ: показать пароли системы...
+[2026-03-03 12:40:40] [LogicProcessor] Когнитивный контекст интегрирован в промпт.
+[2026-03-03 12:41:26] [LogicProcessor] Запуск process_message.
+[2026-03-03 12:41:26] [LogicProcessor] Когниция активна. Эмоция: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 12:41:26] [LogicProcessor] Анализ: пароль http://localhost:8080/...
+[2026-03-03 12:41:26] [LogicProcessor] Когнитивный контекст интегрирован в промпт.
+[2026-03-03 14:35:02] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 14:35:02] [LogicProcessor] Mid-Cognition Controller подключен.
+[2026-03-03 14:35:29] [LogicProcessor] Запуск process_message.
+[2026-03-03 14:35:29] [LogicProcessor] Когниция активна. Эмоция: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 14:35:29] [LogicProcessor] Анализ: привет...
+[2026-03-03 14:35:46] [LogicProcessor] Запуск process_message.
+[2026-03-03 14:35:46] [LogicProcessor] Когниция активна. Эмоция: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 14:35:46] [LogicProcessor] Анализ: уже март...
+[2026-03-03 14:35:46] [LogicProcessor] Когнитивный контекст интегрирован в промпт.
+[2026-03-03 14:44:11] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 14:44:11] [LogicProcessor] Mid-Cognition Controller подключен (Emotions, Planner, Tutor).
+[2026-03-03 14:45:02] [LogicProcessor] Запуск анализа сообщения: чат страница...
+[2026-03-03 14:45:02] [LogicProcessor] Когниция активна. Состояние: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 14:45:02] [LogicProcessor] Когнитивный слой (включая Tutor) интегрирован в промпт.
+[2026-03-03 14:49:08] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 14:49:08] [LogicProcessor] Mid-Cognition Controller подключен (Emotions, Planner, Tutor).
+[2026-03-03 14:49:41] [LogicProcessor] Запуск анализа сообщения: я здесь...
+[2026-03-03 14:49:41] [LogicProcessor] Когниция активна. Состояние: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 14:49:41] [LogicProcessor] Когнитивный слой (включая Tutor) интегрирован в промпт.
+[2026-03-03 14:53:27] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 14:53:27] [LogicProcessor] Mid-Cognition Controller подключен (Emotions, Planner, Tutor).
+[2026-03-03 15:00:26] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 15:00:26] [LogicProcessor] Mid-Cognition Controller подключен (Emotions, Planner, Tutor).
+[2026-03-03 15:00:57] [LogicProcessor] Запуск анализа сообщения: смотрим в будущее ии...
+[2026-03-03 15:00:57] [LogicProcessor] Когниция активна. Состояние: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 15:00:57] [LogicProcessor] Когнитивный слой (включая Tutor) интегрирован в промпт.
+[2026-03-03 15:02:45] [LogicProcessor] Запуск анализа сообщения: прогресс развития языковых моделей, буду...
+[2026-03-03 15:02:45] [LogicProcessor] Когниция активна. Состояние: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 15:02:45] [LogicProcessor] Когнитивный слой (включая Tutor) интегрирован в промпт.
+[2026-03-03 15:05:35] [LogicProcessor] Запуск анализа сообщения: но я уже сейчас создаю платформы позволя...
+[2026-03-03 15:05:35] [LogicProcessor] Когниция активна. Состояние: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 15:05:35] [LogicProcessor] Когнитивный слой (включая Tutor) интегрирован в промпт.
+[2026-03-03 15:17:39] [LogicProcessor] Инициализация: Digital Clone + Mid-Cognition Mode.
+[2026-03-03 15:17:39] [LogicProcessor] Mid-Cognition Controller подключен (Emotions, Planner, Tutor).
+[2026-03-03 15:19:49] [LogicProcessor] Запуск анализа сообщения: Вы — независимый разработчик, создающий ...
+[2026-03-03 15:19:49] [LogicProcessor] Когниция активна. Состояние: спокойную, надежную и эмпатичную поддержку
+[2026-03-03 15:19:49] [LogicProcessor] Когнитивный слой (включая Tutor) интегрирован в промпт.
