@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>VTX | ADMIN CORE</title>
+    <style>
+        :root { --main: #00ff41; --bg: #000; --panel: #0a0a0a; --gold: #ffd700; --red: #ff4141; }
+        body { background: var(--bg); color: var(--main); font-family: 'Consolas', monospace; padding: 20px; margin: 0; }
+
+        /* HEADER */
+        .header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--main); padding-bottom: 10px; margin-bottom: 30px;
+        }
+        .indicator {
+            width: 10px; height: 10px; background: var(--main); border-radius: 50%;
+            display: inline-block; margin-right: 15px; box-shadow: 0 0 10px var(--main);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        /* PANELS */
+        .panel {
+            background: var(--panel); border: 1px solid #1a1a1a;
+            padding: 20px; border-radius: 8px; margin-bottom: 30px;
+        }
+        h2 { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; color: #555; margin-top: 0; }
+
+        /* CONTROLS */
+        .controls { display: flex; gap: 10px; margin-bottom: 20px; }
+        input {
+            background: #111; border: 1px solid #333; color: var(--main);
+            padding: 10px; outline: none; border-radius: 4px; flex: 1;
+        }
+        button {
+            background: var(--main); color: #000; border: none;
+            padding: 10px 20px; cursor: pointer; font-weight: bold; text-transform: uppercase;
+        }
+        button:hover { background: #fff; }
+
+        /* TABLES */
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #1a1a1a; padding: 12px; text-align: left; font-size: 0.85rem; }
+        th { background: #050505; color: #555; text-transform: uppercase; font-size: 0.7rem; }
+
+        .status-pro { color: var(--gold); font-weight: bold; text-shadow: 0 0 5px rgba(255, 215, 0, 0.3); }
+        .status-free { color: var(--main); }
+        .status-banned { color: var(--red); text-decoration: line-through; }
+        .key-val { color: var(--gold); font-family: 'Courier New', monospace; letter-spacing: 1px; }
+
+        .btn-ban { background: var(--red); color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px; }
+        .btn-ban:hover { background: white; color: red; }
+
+        #clock { color: #333; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><span class="indicator"></span>VTX MONITORING SYSTEM</h1>
+        <div id="clock"></div>
+    </div>
+
+    <div class="panel">
+        <h2>Key Generation Center (PRO)</h2>
+        <div class="controls">
+            <input type="text" id="tg-id-input" placeholder="Введите имя пользователя или заметку...">
+            <button onclick="approveKey()">Сгенерировать PRO Ключ</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Владелец / Заметка</th>
+                    <th>Активный Ключ</th>
+                    <th>Статус Системы</th>
+                </tr>
+            </thead>
+            <tbody id="keys-table-body">
+                </tbody>
+        </table>
+    </div>
+
+    <div class="panel">
+        <h2>Live Traffic Monitor (Активные IP)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>IP АДРЕС</th>
+                    <th>ИМЯ ПОЛЬЗОВАТЕЛЯ</th>
+                    <th>ТЕКУЩИЙ СТАТУС</th>
+                    <th>СЕТЫ / ЛИМИТ</th>
+                    <th>УПРАВЛЕНИЕ</th>
+                </tr>
+            </thead>
+            <tbody id="user-table">
+                </tbody>
+        </table>
+    </div>
+
+    <script>
+        // ГЕНЕРАЦИЯ КЛЮЧА
+        async function approveKey() {
+            const tgId = document.getElementById('tg-id-input').value.trim();
+            if (!tgId) return alert('Введите ID или имя для привязки ключа!');
+
+            try {
+                const res = await fetch('/api/admin/approve_key', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({tg_id: tgId})
+                });
+                const data = await res.json();
+                if (data.status === 'success' || data.key) {
+                    alert(`НОВЫЙ КЛЮЧ УСПЕШНО СОЗДАН:\n${data.key}`);
+                    document.getElementById('tg-id-input').value = '';
+                    updateData();
+                }
+            } catch (e) {
+                alert("Ошибка соединения с ядром при создании ключа");
+            }
+        }
+
+        // БАН ПОЛЬЗОВАТЕЛЯ
+        async function banUser(ip) {
+            if (!confirm(`Вы действительно хотите заблокировать IP ${ip}?`)) return;
+            try {
+                const res = await fetch('/api/admin/ban', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ip: ip})
+                });
+                if (res.ok) {
+                    updateData();
+                }
+            } catch (e) { console.error("Ошибка при бане"); }
+        }
+
+        // ОБНОВЛЕНИЕ ДАННЫХ
+        async function updateData() {
+            try {
+                // 1. Получаем список пользователей
+                const resStats = await fetch('/api/admin/stats');
+                const users = await resStats.json();
+                const userTable = document.getElementById('user-table');
+                userTable.innerHTML = '';
+
+                for (const [ip, data] of Object.entries(users)) {
+                    let statusClass = 'status-free';
+                    if (data.status === 'pro') statusClass = 'status-pro';
+                    if (data.status === 'banned') statusClass = 'status-banned';
+
+                    userTable.innerHTML += `
+                        <tr>
+                            <td>${ip}</td>
+                            <td>${data.name || 'Anonymous'}</td>
+                            <td class="${statusClass}">${data.status.toUpperCase()}</td>
+                            <td>${data.sets || 0} / 100</td>
+                            <td>
+                                <button class="btn-ban" onclick="banUser('${ip}')">BAN</button>
+                            </td>
+                        </tr>
+                    `;
+                }
+
+                // 2. Получаем список ключей
+                const resKeys = await fetch('/api/admin/keys_data');
+                const keys = await resKeys.json();
+                const keysTable = document.getElementById('keys-table-body');
+                keysTable.innerHTML = '';
+
+                for (const [owner, key] of Object.entries(keys)) {
+                    keysTable.innerHTML += `
+                        <tr>
+                            <td>${owner}</td>
+                            <td class="key-val">${key}</td>
+                            <td style="color:#444">VTX-SECURE-LINK</td>
+                        </tr>
+                    `;
+                }
+            } catch (e) {
+                console.log("Сервер занят или недоступен... ожидание синхронизации.");
+            }
+        }
+
+        // Запуск циклов
+        setInterval(updateData, 5000);
+        updateData();
+
+        // Часы (системное время VTX)
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleString('ru-RU');
+        }, 1000);
+    </script>
+</body>
+</html>

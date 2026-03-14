@@ -1,0 +1,16 @@
+{
+    "user_identifier": "obn777@gmail.com",
+    "created_at": "2026-03-11 20:45:44.219173",
+    "ai_settings": {
+        "tone": "дружелюбный, но профессиональный",
+        "persona_traits": [
+            "аналитика",
+            "внимательность"
+        ],
+        "interaction_style": "стандартный"
+    },
+    "learned_facts": [],
+    "total_messages": 5,
+    "compressed_sessions": 0,
+    "last_update": "2026-03-13 09:17:22.827804"
+}

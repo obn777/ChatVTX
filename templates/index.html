@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ChatVtx | Digital Clone Terminal</title>
+    <style>
+        :root {
+            --main: #00ff41;
+            --bg: #000000;
+            --panel: #0a0a0a;
+            --error: #ff4141;
+            --dim: #555;
+            --gold: #ffcc00;
+        }
+
+        body, html {
+            height: 100dvh; margin: 0; padding: 0;
+            background: var(--bg); color: #e6edf3;
+            font-family: 'Consolas', monospace; overflow: hidden;
+            position: fixed; width: 100%;
+        }
+
+        /* --- СИСТЕМА ПОДСВЕТКИ СТАТУСОВ --- */
+        #display-status {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            transition: 0.5s;
+            color: var(--dim);
+        }
+
+        .status-pro_temporary, .status-pro {
+            color: var(--main) !important;
+            text-shadow: 0 0 8px var(--main);
+            font-weight: bold;
+        }
+
+        .status-pro_gold, .status-admin {
+            color: var(--gold) !important;
+            text-shadow: 0 0 10px var(--gold);
+            font-weight: bold;
+        }
+
+        .status-free { color: var(--dim); }
+
+        #auth-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98); z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .auth-card {
+            width: 350px; padding: 30px; border: 1px solid var(--main);
+            background: #050505; border-radius: 12px; text-align: center;
+        }
+        .auth-card input {
+            width: 100%; padding: 12px; margin-bottom: 15px;
+            background: #111; border: 1px solid #333; color: var(--main);
+            outline: none; border-radius: 4px; box-sizing: border-box;
+        }
+        .auth-card button {
+            width: 100%; padding: 15px; background: var(--main); color: #000;
+            border: none; font-weight: bold; cursor: pointer; text-transform: uppercase;
+        }
+
+        .wrapper { display: flex; height: 100dvh; width: 100vw; position: relative; }
+
+        .sidebar {
+            width: 260px; background: var(--panel); border-right: 1px solid #1a1a1a;
+            display: flex; flex-direction: column; padding: 15px;
+            transition: 0.3s; z-index: 1000; position: relative;
+        }
+        .sidebar.hidden { margin-left: -290px; }
+
+        .sidebar-header { text-align: center; margin-bottom: 20px; }
+        .avatar { width: 80px; height: 80px; border-radius: 50%; border: 1px solid var(--main); margin-bottom: 10px; object-fit: cover; }
+        #display-user { color: var(--main); font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 5px; }
+
+        .sets-container {
+            flex: 1; background: #050505; border: 1px solid #111;
+            overflow-y: auto; margin-bottom: 20px; border-radius: 4px;
+        }
+        .set-item { border-bottom: 1px solid #111; padding: 10px; cursor: pointer; font-size: 0.7rem; color: #666; }
+
+        .sidebar-footer {
+            border-top: 1px solid #222;
+            padding-top: 15px;
+            padding-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .side-input {
+            background: #000; border: 1px solid #222; color: var(--main);
+            font-size: 0.7rem; padding: 8px; border-radius: 4px; outline: none;
+        }
+        #tts-btn {
+            background: #111; color: #555; border: 1px solid #222;
+            cursor: pointer; border-radius: 4px; padding: 10px;
+            font-size: 0.7rem; font-weight: bold; text-transform: uppercase;
+        }
+        #tts-btn.active { background: rgba(0, 255, 65, 0.1); color: var(--main); border-color: var(--main); }
+
+        .main-content { flex: 1; display: flex; flex-direction: column; background: #000; min-width: 0; position: relative; }
+        #chat-window { flex: 1; overflow-y: auto; padding: 25px; padding-top: 60px; scroll-behavior: smooth; }
+        .msg-q { color: var(--dim); margin-bottom: 8px; font-size: 0.9rem; }
+        .msg-a { color: #fff; margin-bottom: 30px; line-height: 1.6; border-left: 2px solid var(--main); padding-left: 15px; white-space: pre-wrap; }
+
+        .input-area {
+            display: flex; border-top: 1px solid #1a1a1a;
+            background: #0a0a0a; padding: 15px; gap: 10px;
+            padding-bottom: calc(15px + env(safe-area-inset-bottom));
+        }
+        input#user-input {
+            flex: 1; background: #000; border: 1px solid #333;
+            color: #fff; padding: 12px 20px; outline: none; border-radius: 25px;
+        }
+        .btn-ui { cursor: pointer; border-radius: 20px; padding: 10px 20px; font-weight: bold; border: none; font-size: 0.8rem; }
+
+        .toggle-btn {
+            position: absolute; top: 15px; left: 15px;
+            color: var(--main); cursor: pointer; border: 1px solid var(--main);
+            padding: 5px 12px; background: var(--bg); z-index: 1100; border-radius: 20px; font-size: 0.7rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { position: absolute; left: -280px; height: 100dvh; }
+            .sidebar.mobile-active { left: 0; box-shadow: 20px 0 50px rgba(0,0,0,0.9); }
+        }
+    </style>
+</head>
+<body>
+    <div id="auth-overlay">
+        <div class="auth-card">
+            <img src="/static/ai_avatar.png" style="width: 80px; border-radius: 50%; border: 2px solid var(--main); margin-bottom: 15px;">
+            <h2 style="color: var(--main); font-size: 1rem; letter-spacing: 2px;">СИНХРОНИЗАЦИЯ VTX</h2>
+            <input type="text" id="init-name" placeholder="ВАШЕ ИМЯ">
+            <input type="text" id="init-key" placeholder="КЛЮЧ ДОСТУПА">
+            <button onclick="saveAuth()">ВХОД В СИСТЕМУ</button>
+            <p style="color: #444; font-size: 0.6rem; margin-top: 15px;">FREE MODE: 100 SETS | LOW DEPTH</p>
+        </div>
+    </div>
+
+    <div class="toggle-btn" id="hide-sidebar-btn" onclick="toggleSidebar()">[ ТЕРМИНАЛ ]</div>
+
+    <div class="wrapper">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="/static/ai_avatar.png" class="avatar">
+                <div id="display-user">USER: Unknown</div>
+                <div id="display-status">STATUS: STANDBY</div>
+            </div>
+            <div class="sets-container" id="sets-list"></div>
+            <div class="sidebar-footer">
+                <input type="text" id="user-name" class="side-input" placeholder="СМЕНИТЬ ИМЯ" onchange="updateCredentials()">
+                <input type="text" id="access-key" class="side-input" placeholder="КЛЮЧ PRO" onchange="updateCredentials()">
+                <button id="tts-btn" onclick="toggleTTS()">🔊 ГОЛОСОВОЙ МОДУЛЬ: OFF</button>
+            </div>
+        </div>
+        <div class="main-content">
+            <div id="chat-window"></div>
+            <div class="input-area">
+                <button class="btn-ui" style="background:none; border:1px solid #333; color:#666;" onclick="clearChat()">CLS</button>
+                <input type="text" id="user-input" placeholder="Введите команду..." autocomplete="off">
+                <button class="btn-ui" style="background:var(--main); color:black;" onclick="send()">RUN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentName = localStorage.getItem('vtx_name') || "";
+        let currentKey = localStorage.getItem('vtx_key') || "";
+        let ttsActive = false;
+        let setsHistory = JSON.parse(localStorage.getItem('vtx_history') || "[]");
+
+        window.onload = () => {
+            if (currentName) {
+                document.getElementById('auth-overlay').style.display = 'none';
+                document.getElementById('user-name').value = currentName;
+                document.getElementById('access-key').value = currentKey;
+                document.getElementById('display-user').innerText = `USER: ${currentName.toUpperCase()}`;
+                renderHistory();
+            }
+            if (localStorage.getItem('ttsActive') === 'true') toggleTTS();
+        };
+
+        function saveAuth() {
+            const name = document.getElementById('init-name').value.trim();
+            const key = document.getElementById('init-key').value.trim();
+            if (!name) return;
+            currentName = name;
+            currentKey = key;
+            localStorage.setItem('vtx_name', name);
+            localStorage.setItem('vtx_key', key);
+            location.reload();
+        }
+
+        function updateCredentials() {
+            currentName = document.getElementById('user-name').value;
+            currentKey = document.getElementById('access-key').value;
+            localStorage.setItem('vtx_name', currentName);
+            localStorage.setItem('vtx_key', currentKey);
+            document.getElementById('display-user').innerText = `USER: ${currentName.toUpperCase()}`;
+        }
+
+        function toggleSidebar() {
+            const sb = document.getElementById('sidebar');
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) sb.classList.toggle('mobile-active');
+            else sb.classList.toggle('hidden');
+        }
+
+        function toggleTTS() {
+            ttsActive = !ttsActive;
+            const btn = document.getElementById('tts-btn');
+            btn.innerHTML = ttsActive ? '🔊 ГОЛОСОВОЙ МОДУЛЬ: ON' : '🔊 ГОЛОСОВОЙ МОДУЛЬ: OFF';
+            btn.classList.toggle('active', ttsActive);
+            localStorage.setItem('ttsActive', ttsActive);
+            if (!ttsActive) window.speechSynthesis.cancel();
+        }
+
+        function clearChat() {
+            window.speechSynthesis.cancel();
+            document.getElementById('chat-window').innerHTML = '';
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('sets-list');
+            if (setsHistory.length === 0) return;
+            list.innerHTML = setsHistory.map((h, i) => `
+                <div class="set-item" onclick="loadHistoryItem(${i})">
+                    <span style="color:var(--main)">></span> ${h.q.substring(0, 25)}
+                </div>
+            `).join('');
+        }
+
+        function loadHistoryItem(index) {
+            const item = setsHistory[index];
+            const chatWin = document.getElementById('chat-window');
+            chatWin.innerHTML += `<div class="msg-q" style="opacity:0.4;">>> ${item.q} (LOADED)</div>`;
+            chatWin.innerHTML += `<div class="msg-a" style="opacity:0.7;">● ${item.a}</div>`;
+            chatWin.scrollTop = chatWin.scrollHeight;
+        }
+
+        function updateStatusUI(status) {
+            const statusEl = document.getElementById('display-status');
+            if (!status) return;
+            statusEl.innerText = `STATUS: ACTIVE (${status})`;
+            statusEl.className = '';
+            statusEl.classList.add(`status-${status.toLowerCase()}`);
+        }
+
+        async function send() {
+            const input = document.getElementById('user-input');
+            const chatWin = document.getElementById('chat-window');
+            const text = input.value.trim();
+            if (!text) return;
+            input.value = '';
+
+            document.getElementById('display-status').innerText = 'STATUS: PROCESSING...';
+            chatWin.innerHTML += `<div class="msg-q">>> ${text}</div>`;
+
+            const aDiv = document.createElement('div');
+            aDiv.className = 'msg-a';
+            aDiv.innerText = '● Инициализация VTX...';
+            chatWin.appendChild(aDiv);
+            chatWin.scrollTop = chatWin.scrollHeight;
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        text: text,
+                        name: currentName,
+                        key: currentKey,
+                        user: currentKey, // Совместимость со старым API
+                        uid: "web_client_" + currentName
+                    })
+                });
+
+                if (!response.ok) throw new Error('Network error');
+
+                const data = await response.json();
+                aDiv.innerText = `● ${data.reply}`;
+
+                if (data.mode) updateStatusUI(data.mode);
+
+                const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                setsHistory.unshift({q: text, a: data.reply, time: time});
+                if (setsHistory.length > 30) setsHistory.pop();
+                localStorage.setItem('vtx_history', JSON.stringify(setsHistory));
+                renderHistory();
+
+                if (ttsActive) {
+                    window.speechSynthesis.cancel();
+                    const ut = new SpeechSynthesisUtterance(data.reply.replace(/[●*]/g, ''));
+                    ut.lang = 'ru-RU';
+                    window.speechSynthesis.speak(ut);
+                }
+            } catch (e) {
+                aDiv.innerText = '● Критическая ошибка связи с VTX Core.';
+                document.getElementById('display-status').innerText = 'STATUS: ERROR';
+            }
+            chatWin.scrollTop = chatWin.scrollHeight;
+        }
+
+        document.getElementById('user-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') send(); });
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+{
+    # --- Глобальные настройки ---
+    # Твой Email для автоматической регистрации в Let's Encrypt
+    email vtxm777@gmail.com
+
+    # Настройка логов самого сервера (не путать с логами доступа к сайту)
+    log {
+        output file /home/obn7/NovBase/storage/caddy_internal.log
+        level ERROR
+    }
+}
+
+# Основной домен
+chatvtx.xyz {
+    # Сжатие трафика для ускорения работы терминала
+    encode gzip zstd
+
+    # --- Статика (CSS, JS, Картинки) ---
+    # Обслуживаем напрямую из корня проекта
+    handle /static/* {
+        root * /home/obn7/NovBase
+        file_server
+    }
+
+    # Обслуживаем карту сайта (Sitemap)
+    handle /sitemap.xml {
+        root * /home/obn7/NovBase/static
+        file_server
+    }
+
+    # --- Безопасность (Security Headers) ---
+    header {
+        # Принудительный HTTPS на 1 год
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        # Запрет браузеру угадывать тип контента (защита от XSS)
+        X-Content-Type-Options "nosniff"
+        # Разрешаем встраивание сайта во фреймы только внутри своего домена
+        X-Frame-Options "SAMEORIGIN"
+        # Политика передачи Referrer
+        Referrer-Policy "strict-origin-when-cross-origin"
+        # Content Security Policy (настроено под терминал VTX)
+        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self';"
+    }
+
+    # --- Обратный прокси (Связка с Flask на порту 8080) ---
+    # Все запросы, которые не попали под статику, уходят в ядро
+    handle {
+        reverse_proxy localhost:8080 {
+            # Прокидываем заголовки, чтобы Flask видел реальный IP пользователя
+            header_up Host {host}
+            header_up X-Real-IP {remote_host}
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Forwarded-Proto {scheme}
+
+            # Настройки транспорта для долгих ответов ИИ
+            transport http {
+                read_timeout 120s
+                write_timeout 120s
+                dial_timeout 10s
+            }
+        }
+    }
+
+    # --- Логирование посещений ---
+    log {
+        output file /home/obn7/NovBase/storage/caddy_access.log {
+            roll_size 10mb
+            roll_keep 5
+        }
+        level INFO
+    }
+}
+
+# Автоматический редирект с www на основной домен (HTTPS)
+www.chatvtx.xyz {
+    redir https://chatvtx.xyz{uri} permanent
+}

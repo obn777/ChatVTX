@@ -1,0 +1,6 @@
+{
+    "reboot_node": "bash /home/obn7/NovBase/reboot_node.sh",
+    "sync_memory": "python3 /home/obn7/NovBase/core/sync_guard.py",
+    "deploy_fix": "python3 /home/obn7/NovBase/deploy_fix.py",
+    "clean_logs": "rm /home/obn7/NovBase/server.log && touch /home/obn7/NovBase/server.log"
+}

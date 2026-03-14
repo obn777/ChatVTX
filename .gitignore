@@ -1,0 +1,53 @@
+# === Временные файлы и кэш Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ipynb_checkpoints/
+
+# === Окружение (Тяжелые зависимости) ===
+venv/
+env/
+.env
+.venv/
+
+# === Модели ИИ (Огромные файлы) ===
+# Мы не храним веса нейросетей на GitHub
+models/
+*.gguf
+*.bin
+*.onnx
+LlamaModel/
+
+# === Данные и Бэкапы (То, что раздуло проект) ===
+backups/
+core_backup_v2/
+backup/
+*.tar.gz
+*.deb
+*.zip
+
+# === Логи и хранилище ===
+storage/
+logs/
+*.log
+output.log
+server.log
+
+# === Загрузки и медиа ===
+uploads/
+outputs/
+content/
+piper/
+
+# === Конфиденциальные данные ===
+# Скрываем ключи и базу пользователей
+configs/auth.json
+configs/paths.json
+vtx_memory_cache.json
+task_queue.jsonl
+
+# === Скрытые системные файлы ===
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,20 @@
+{
+    "user_identifier": "admin_georgiy",
+    "created_at": "2026-03-13 21:55:04.823315",
+    "ai_settings": {
+        "tone": "дружелюбный, но профессиональный",
+        "persona_traits": [
+            "аналитика",
+            "внимательность"
+        ],
+        "interaction_style": "развернутый технический анализ"
+    },
+    "security": {
+        "hardware_id": null,
+        "activation_date": null
+    },
+    "learned_facts": [],
+    "total_messages": 15,
+    "compressed_sessions": 0,
+    "last_update": "2026-03-14 07:28:56.096248"
+}

@@ -1,0 +1,16 @@
+{
+    "user_identifier": "георгий георгий георгий",
+    "created_at": "2026-03-12 06:53:25.314404",
+    "ai_settings": {
+        "tone": "дружелюбный, но профессиональный",
+        "persona_traits": [
+            "аналитика",
+            "внимательность"
+        ],
+        "interaction_style": "стандартный"
+    },
+    "learned_facts": [],
+    "total_messages": 8,
+    "compressed_sessions": 0,
+    "last_update": "2026-03-13 06:28:10.314757"
+}
